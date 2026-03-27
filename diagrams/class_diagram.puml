@@ -1,0 +1,106 @@
+@startuml class_diagram
+title Class Diagram - Sistem POS & Manajemen Inventaris "ZEO" Cafe
+
+' ── Abstract base ────────────────────────────────────────────────
+abstract class User {
+    # id         : int
+    # nama       : String
+    # username   : String
+    # password   : String
+    + login()   : boolean
+}
+
+' ── Concrete users ───────────────────────────────────────────────
+class Owner {
+    + kelolaMenu()        : void
+    + lihatLaporan()      : void
+    + kelolaInventaris()  : void
+    + aturRolePengguna()  : void
+}
+
+class Kasir {
+    + terimaPesanan()     : void
+    + prosesPembayaran()  : boolean
+    + cetakStruk()        : void
+    + updateStatusPesanan(): void
+}
+
+class Pelanggan {
+    - noMeja             : String
+    + lihatKatalog()     : void
+    + tambahKeranjang()  : void
+    + konfirmasiPesanan(): void
+}
+
+User <|-- Owner
+User <|-- Kasir
+User <|-- Pelanggan
+
+' ── Domain classes ───────────────────────────────────────────────
+class Menu {
+    - idMenu     : int
+    - namaMenu   : String
+    - harga      : double
+    - status     : String
+    + tampilkanMenu()  : void
+    + updateStatus()   : void
+}
+
+class Pesanan {
+    - idPesanan  : int
+    - waktu      : DateTime
+    - status     : String
+    - totalHarga : double
+    + hitungTotal()    : double
+    + updateStatus()   : void
+}
+
+class DetailPesanan {
+    - idDetail      : int
+    - jumlah        : int
+    - hargaSatuan   : double
+    + getSubtotal() : double
+}
+
+class Inventaris {
+    - idBahan       : int
+    - namaBahan     : String
+    - stokSaatIni   : double
+    - satuan        : String
+    + kurangiStok()      : void
+    + cekKetersediaan()  : boolean
+}
+
+class Transaksi {
+    - idTransaksi   : int
+    - metodeBayar   : String
+    - totalBayar    : double
+    - kembalian     : double
+    + hitungKembalian() : double
+    + generateStruk()   : void
+}
+
+class Laporan {
+    - idLaporan        : int
+    - tanggal          : Date
+    - totalPendapatan  : double
+    + generateLaporan() : void
+    + eksporPDF()       : void
+}
+
+' ── Relationships ────────────────────────────────────────────────
+' Composition: Pesanan ◆── DetailPesanan
+Pesanan *-- "1..*" DetailPesanan : contains
+
+' Associations
+Kasir        "1" -- "0..*" Pesanan    : mengelola
+Pelanggan    "1" -- "0..*" Pesanan    : membuat
+DetailPesanan "1..*" -- "1" Menu      : merujuk
+Pesanan      "1" -- "1"   Transaksi   : menghasilkan
+Transaksi    "0..*" -- "1" Laporan    : dicatat ke
+Inventaris   "0..*" -- "1" Pesanan    : digunakan oleh
+Owner        "1"  -- "0..*" Menu       : mengelola
+Owner        "1"  -- "0..*" Inventaris : mengelola
+Owner        "1"  -- "0..*" Laporan    : melihat
+
+@enduml

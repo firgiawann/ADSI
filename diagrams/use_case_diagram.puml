@@ -1,0 +1,59 @@
+@startuml use_case_diagram
+title Use Case Diagram - Sistem POS & Manajemen Inventaris "ZEO" Cafe
+
+left to right direction
+
+actor Owner as OW
+actor "Kasir / Barista" as KB
+actor Pelanggan as PL
+
+rectangle "Sistem ZEO" {
+
+    ' ── Use cases shared by all actors ──────────────────────────
+    usecase "Login Sistem" as UC_LOGIN
+
+    ' ── Owner ────────────────────────────────────────────────────
+    usecase "Kelola Menu (CRUD)" as UC_MENU
+    usecase "Lihat Laporan\nPendapatan Harian" as UC_LAPORAN
+    usecase "Kelola Inventaris" as UC_INVENTARIS
+    usecase "Atur Role Pengguna" as UC_ROLE
+
+    ' ── Kasir / Barista ──────────────────────────────────────────
+    usecase "Terima Pesanan" as UC_TERIMA
+    usecase "Proses Pembayaran" as UC_BAYAR
+    usecase "Cetak Struk Digital (PDF)" as UC_STRUK
+    usecase "Update Status Pesanan" as UC_STATUS
+
+    ' ── Pelanggan ────────────────────────────────────────────────
+    usecase "Scan Barcode Meja" as UC_SCAN
+    usecase "Lihat Katalog Menu Digital" as UC_KATALOG
+    usecase "Self-Order (Tambah ke Keranjang)" as UC_KERANJANG
+    usecase "Konfirmasi Pesanan" as UC_KONFIRMASI
+}
+
+' ── Associations ─────────────────────────────────────────────────
+OW --> UC_LOGIN
+OW --> UC_MENU
+OW --> UC_LAPORAN
+OW --> UC_INVENTARIS
+OW --> UC_ROLE
+
+KB --> UC_LOGIN
+KB --> UC_TERIMA
+KB --> UC_BAYAR
+KB --> UC_STRUK
+KB --> UC_STATUS
+
+PL --> UC_LOGIN
+PL --> UC_SCAN
+PL --> UC_KATALOG
+PL --> UC_KERANJANG
+PL --> UC_KONFIRMASI
+
+' ── Include / Extend relationships ───────────────────────────────
+UC_BAYAR .> UC_STRUK : <<include>>
+UC_SCAN  .> UC_KATALOG : <<include>>
+UC_KERANJANG .> UC_KONFIRMASI : <<include>>
+UC_KONFIRMASI .> UC_TERIMA : <<extend>>
+
+@enduml
