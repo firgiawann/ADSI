@@ -8,9 +8,9 @@ Repositori ini berisi tiga diagram UML yang dibuat menggunakan **PlantUML** untu
 
 | File | Jenis | Deskripsi singkat |
 |------|-------|-------------------|
-| `use_case_diagram.puml` | Use Case Diagram | Interaksi aktor dengan sistem |
-| `activity_diagram.puml` | Activity Diagram | Alur proses pemesanan end-to-end |
-| `class_diagram.puml` | Class Diagram | Struktur kelas dan relasi antar objek |
+| `use_case_diagram.puml` / [`use_case_diagram_zeo.svg`](use_case_diagram_zeo.svg) | Use Case Diagram | Interaksi aktor dengan sistem |
+| `activity_diagram.puml` / [`activity_diagram_zeo.svg`](activity_diagram_zeo.svg) | Activity Diagram | Alur proses pemesanan end-to-end |
+| `class_diagram.puml` / [`class_diagram_zeo.svg`](class_diagram_zeo.svg) | Class Diagram | Struktur kelas dan relasi antar objek |
 
 ---
 
@@ -54,6 +54,10 @@ Menggambarkan **siapa** yang berinteraksi dengan sistem dan **apa** yang dapat m
 - `<<include>>`: Proses Pembayaran **selalu** menyertakan Cetak Struk; Scan Barcode **selalu** membuka Katalog; Tambah Keranjang **selalu** berujung pada Konfirmasi.
 - `<<extend>>`: Konfirmasi Pesanan (oleh Pelanggan) **dapat memperluas** Terima Pesanan (oleh Kasir).
 
+### Diagram
+
+![Use Case Diagram](use_case_diagram_zeo.svg)
+
 ---
 
 ## 2. Activity Diagram (`activity_diagram.puml`)
@@ -80,6 +84,10 @@ Menggambarkan **alur kerja** proses pemesanan dari awal hingga selesai menggunak
 8. **Kasir** memproses pembayaran:
    - **Valid** → konfirmasi → catat transaksi → cetak struk → Pelanggan menerima struk.
    - **Tidak valid** → informasikan ke Pelanggan untuk mengulang pembayaran.
+
+### Diagram
+
+![Activity Diagram](activity_diagram_zeo.svg)
 
 ---
 
@@ -130,6 +138,10 @@ User (abstract)
 | Association | Transaksi | Laporan | Transaksi dicatat ke laporan harian |
 | Association | Inventaris | Pesanan | Stok berkurang ketika pesanan diproses |
 | Association | Owner | Menu / Inventaris / Laporan | Owner mengelola menu, inventaris, dan laporan |
+
+### Diagram
+
+![Class Diagram](class_diagram_zeo.svg)
 
 ---
 
