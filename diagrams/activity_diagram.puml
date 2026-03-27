@@ -1,0 +1,71 @@
+@startuml activity_diagram
+title Activity Diagram - Alur Pemesanan Sistem ZEO
+
+|Pelanggan|
+|Kasir|
+|Sistem|
+
+|Pelanggan|
+start
+:Scan Barcode Meja;
+:Buka Aplikasi / Halaman Menu;
+
+|Sistem|
+:Tampilkan Katalog Menu Digital;
+
+|Pelanggan|
+:Lihat Katalog Menu;
+
+repeat
+  :Pilih Menu;
+  :Tambah ke Keranjang;
+  if (Tambah Item Lagi?) then (Ya)
+  else (Tidak)
+    break
+  endif
+repeat while (Lanjut Pesan?)
+
+:Review Keranjang;
+:Konfirmasi Pesanan;
+
+|Sistem|
+:Simpan Pesanan ke Database;
+:Kirim Notifikasi ke Kasir;
+
+|Kasir|
+:Terima Notifikasi Pesanan;
+:Siapkan Pesanan;
+:Update Status Pesanan → "Diproses";
+
+|Sistem|
+:Kurangi Stok Inventaris Otomatis;
+:Catat ke Laporan Harian;
+
+|Kasir|
+:Pesanan Selesai Disiapkan;
+:Proses Pembayaran;
+
+if (Pembayaran Valid?) then (Ya)
+  :Konfirmasi Pembayaran;
+
+  |Sistem|
+  :Catat Transaksi ke Database;
+  :Update Laporan Pendapatan Harian;
+
+  |Kasir|
+  :Cetak Struk Digital (PDF);
+
+  |Pelanggan|
+  :Terima Struk Digital;
+  :Pesanan Selesai;
+  stop
+else (Tidak)
+  :Informasikan Kesalahan Pembayaran ke Pelanggan;
+
+  |Pelanggan|
+  :Ulangi / Perbaiki Pembayaran;
+  note right: Kembali ke langkah\nProses Pembayaran
+  stop
+endif
+
+@enduml
