@@ -29,8 +29,11 @@ repeat while (Lanjut Pesan?)
 :Konfirmasi Pesanan;
 
 |Sistem|
-:Simpan Pesanan ke Database;
-:Kirim Notifikasi ke Kasir;
+fork
+  :Simpan Pesanan ke Database;
+fork again
+  :Kirim Notifikasi ke Kasir;
+end fork
 
 |Kasir|
 :Terima Notifikasi Pesanan;
@@ -43,29 +46,32 @@ repeat while (Lanjut Pesan?)
 
 |Kasir|
 :Pesanan Selesai Disiapkan;
-:Proses Pembayaran;
 
-if (Pembayaran Valid?) then (Ya)
-  :Konfirmasi Pembayaran;
+repeat
+  :Proses Pembayaran;
 
-  |Sistem|
-  :Catat Transaksi ke Database;
-  :Update Laporan Pendapatan Harian;
+  if (Pembayaran Valid?) then (Ya)
+    :Konfirmasi Pembayaran;
 
-  |Kasir|
-  :Cetak Struk Digital (PDF);
+    |Sistem|
+    :Catat Transaksi ke Database;
+    :Update Laporan Pendapatan Harian;
 
-  |Pelanggan|
-  :Terima Struk Digital;
-  :Pesanan Selesai;
-  stop
-else (Tidak)
-  :Informasikan Kesalahan Pembayaran ke Pelanggan;
+    |Kasir|
+    :Cetak Struk Digital (PDF);
 
-  |Pelanggan|
-  :Ulangi / Perbaiki Pembayaran;
-  note right: Kembali ke langkah\nProses Pembayaran
-  stop
-endif
+    |Pelanggan|
+    :Terima Struk Digital;
+    :Pesanan Selesai;
+    break
+  else (Tidak)
+    :Informasikan Kesalahan Pembayaran;
+
+    |Pelanggan|
+    :Ulangi / Perbaiki Pembayaran;
+  endif
+repeat while (Bayar Ulang?) is (Ya)
+
+stop
 
 @enduml

@@ -88,6 +88,15 @@ class Laporan {
     + eksporPDF()       : void
 }
 
+class Notifikasi {
+    - idNotifikasi  : int
+    - pesan         : String
+    - waktu         : DateTime
+    - sudahDibaca   : boolean
+    + kirim()           : void
+    + tandaiDibaca()    : void
+}
+
 ' ── Relationships ────────────────────────────────────────────────
 ' Composition: Pesanan ◆── DetailPesanan
 Pesanan *-- "1..*" DetailPesanan : contains
@@ -102,5 +111,7 @@ Inventaris   "0..*" -- "1" Pesanan    : digunakan oleh
 Owner        "1"  -- "0..*" Menu       : mengelola
 Owner        "1"  -- "0..*" Inventaris : mengelola
 Owner        "1"  -- "0..*" Laporan    : melihat
+Pesanan      "1"  -- "1"    Notifikasi : menghasilkan
+Notifikasi   "0..*" -- "1"  Kasir      : diterima oleh
 
 @enduml
