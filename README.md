@@ -181,12 +181,12 @@ Berikut adalah seluruh file diagram dalam format **SVG** yang tersedia di reposi
 
 ### Use Case Diagram
 
-![Use Case Diagram](use_case_diagram_zeo.svg)
+![Use Case Diagram](ref/use_case_diagram_zeo.svg)
 
 ### Activity Diagram
 
-![Activity Diagram](activity_diagram_zeo.svg)
+![Activity Diagram](ref/activity_diagram_zeo.svg)
 
 ### Class Diagram
 
-![Class Diagram](class_diagram_zeo.svg)
+![Class Diagram](ref/class_diagram_zeo.svg)
