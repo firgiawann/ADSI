@@ -172,3 +172,21 @@ File PNG akan dihasilkan di direktori yang sama.
 - **Notasi**: UML 2.x
 - **Rendering**: [PlantUML](https://plantuml.com/)
 - **Bahasa deskripsi**: PlantUML DSL (`.puml`)
+
+---
+
+## Referensi Lain
+
+Berikut adalah seluruh file diagram dalam format **SVG** yang tersedia di repositori ini:
+
+### Use Case Diagram
+
+![Use Case Diagram](use_case_diagram_zeo.svg)
+
+### Activity Diagram
+
+![Activity Diagram](activity_diagram_zeo.svg)
+
+### Class Diagram
+
+![Class Diagram](class_diagram_zeo.svg)
