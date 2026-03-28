@@ -78,12 +78,12 @@ Menggambarkan **alur kerja** proses pemesanan dari awal hingga selesai menggunak
 2. **Sistem** menampilkan katalog menu digital.
 3. **Pelanggan** memilih menu dan menambah ke keranjang *(loop — dapat menambah lebih dari satu item)*.
 4. **Pelanggan** mengkonfirmasi pesanan.
-5. **Sistem** menyimpan pesanan dan mengirim notifikasi ke Kasir.
+5. **Sistem** secara paralel menyimpan pesanan ke database *dan* mengirim notifikasi ke Kasir.
 6. **Kasir** menerima notifikasi → menyiapkan pesanan → memperbarui status.
 7. **Sistem** mengurangi stok inventaris secara otomatis dan mencatat ke laporan harian.
-8. **Kasir** memproses pembayaran:
-   - **Valid** → konfirmasi → catat transaksi → cetak struk → Pelanggan menerima struk.
-   - **Tidak valid** → informasikan ke Pelanggan untuk mengulang pembayaran.
+8. **Kasir** memproses pembayaran *(loop retry jika gagal)*:
+   - **Valid** → konfirmasi → catat transaksi → cetak struk → Pelanggan menerima struk → selesai.
+   - **Tidak valid** → informasikan ke Pelanggan → Pelanggan memperbaiki pembayaran → kembali ke langkah 8.
 
 ### Diagram
 
@@ -124,6 +124,7 @@ User (abstract)
 | **Inventaris** | idBahan, namaBahan, stokSaatIni, satuan | kurangiStok(), cekKetersediaan() |
 | **Transaksi** | idTransaksi, metodeBayar, totalBayar, kembalian | hitungKembalian(), generateStruk() |
 | **Laporan** | idLaporan, tanggal, totalPendapatan | generateLaporan(), eksporPDF() |
+| **Notifikasi** | idNotifikasi, pesan, waktu, sudahDibaca | kirim(), tandaiDibaca() |
 
 #### Relasi Antar Kelas
 
@@ -138,6 +139,8 @@ User (abstract)
 | Association | Transaksi | Laporan | Transaksi dicatat ke laporan harian |
 | Association | Inventaris | Pesanan | Stok berkurang ketika pesanan diproses |
 | Association | Owner | Menu / Inventaris / Laporan | Owner mengelola menu, inventaris, dan laporan |
+| Association | Pesanan | Notifikasi | Pesanan menghasilkan notifikasi ke kasir |
+| Association | Notifikasi | Kasir | Kasir menerima notifikasi pesanan masuk |
 
 ### Diagram
 
